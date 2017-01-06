@@ -27,7 +27,7 @@ class NameForm extends React.Component {
 				<option key={year} value={year}>{year}</option>
 			)
 		})
-
+		var tableRows = 
 		return (
 			<div>
 				<div className='dropdowns'>
@@ -47,10 +47,12 @@ class NameForm extends React.Component {
 					</form>
 				</div>
 				<div className='table'>
-
-
-
-					
+					<tr>
+						<th>Year</th>
+						<th>Name</th>
+						<th>Score</th>
+					</tr>
+					{tableRows}
 				</div>
 			</div>
 		)
