@@ -5,6 +5,10 @@ const fs = require('fs')
 // names = {someName: [{year: 1990, gender: 'F', score: 299}, {year: 1991, gender: 'F', score: 283}], otherName: []}
 // years = {'1990': {someName: [{gender: 'F', score: 299}], otherName: [{gender: 'M', score:301}]}}
 
+// promisify fs methods
+// promise.all
+// execute recursively (serially)
+
 const names = {}
 const years = {}
 
@@ -36,6 +40,7 @@ fs.readdir('./namesData', (err, files) => {
 					yearObj[name] = [yearNameObj]
 				}
 			})
+			// recurse: call fs.readFile()
 		})
 		console.log('outside readFile')
 		years[year] = yearObj
