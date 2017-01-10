@@ -6,8 +6,7 @@ import years from './output/years'
 class NameForm extends React.Component {
 	constructor() {
 		super()
-		this.state = {year: '2015', name: 'Sophia'}
-		this.handleSubmit = this.handleSubmit.bind(this)
+		this.state = {year: '', name: ''}
 		this.handleChange = this.handleChange.bind(this)
 	}
 
@@ -27,7 +26,38 @@ class NameForm extends React.Component {
 				<option key={year} value={year}>{year}</option>
 			)
 		})
-		var tableRows = 
+		var tableRows
+		if (this.state.year && !this.state.name) {
+			tableRows = []
+			const obj = years[this.state.year]
+			Object.keys(obj).forEach(name => {
+				let nameArray = obj[name]
+				let rows = nameArray.map(row => {
+					return (
+						<tr key={name+row.year+row.gender}><td>{this.state.year}</td><td>{name}</td><td>{row.gender}</td><td>{row.score}</td></tr>
+					)
+				})
+				tableRows = tableRows.concat(rows)
+			})
+		} else if (!this.state.year && this.state.name) {
+			let nameArray = names[this.state.name]
+			tableRows = nameArray.map(row => {
+				return (
+					<tr key={name+row.year+row.gender}><td>{row.year}</td><td>{this.state.name}</td><td>{row.gender}</td><td>{row.score}</td></tr>
+				)
+			})
+		} else if (this.state.year && this.state.name) {
+			let nameArray = names[this.state.name]
+			tableRows= nameArray.filter(obj => {
+				return obj.year === this.state.year
+			}).map(row => {
+				return (
+					<tr key={this.state.name+this.state.year+row.gender}><td>{this.state.year}</td><td>{this.state.name}</td><td>{row.gender}</td><td>{row.score}</td></tr>
+				)
+			})
+		} else {
+			tableRows = null
+		}
 		return (
 			<div>
 				<div className='dropdowns'>
@@ -35,24 +65,31 @@ class NameForm extends React.Component {
 						<label>
 							Pick a name and/or
 							<select value={this.state.name} onChange={event => { this.handleChange(event, 'name')}}>
+								<option key='blank' value=''>&nbsp;</option>
 								{namesOptions}
 							</select>
 						</label>
 						<label>
 							year
 							<select value={this.state.year} onChange={event => { this.handleChange(event, 'year')}}>
+								<option key='blank' value=''>&nbsp;</option>
 								{yearsOptions}
 							</select>
 						</label>
 					</form>
 				</div>
 				<div className='table'>
-					<tr>
-						<th>Year</th>
-						<th>Name</th>
-						<th>Score</th>
-					</tr>
-					{tableRows}
+					<table>
+						<tbody>
+							<tr>
+								<th>Year</th>
+								<th>Name</th>
+								<th>Gender</th>
+								<th>Score</th>
+							</tr>
+							{tableRows}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		)
